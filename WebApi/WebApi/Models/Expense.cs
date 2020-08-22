@@ -14,10 +14,11 @@ namespace WebApi.Models
 
     public class Expense
     {
-
-
         [Key]
+        public int Id { get; set; }
+     
         [Required(ErrorMessage = "O campo {0} é obrigatório!")]
+
         public string Description { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório!")]
 
@@ -35,20 +36,13 @@ namespace WebApi.Models
         {
             try
             {
-                if (this.Description != Description)
-                {
-                    db.Expenses.Update(this);
-                }
-                else
-                {
-                    db.Expenses.Add(this);
-                }
+                db.Expenses.Add(this);
                 db.SaveChanges();
                 return this;
             }
             catch (Exception ex)
             {
-                throw  new Exception(Convert.ToString(ex + MsgApi.API001));
+                throw new Exception(Convert.ToString(ex + MsgApi.API001));
             }
         }
 
@@ -62,6 +56,44 @@ namespace WebApi.Models
             {
                 throw ex;
             }
+        }
+        public Expense Update(Expense expense)
+        {
+            try
+            {
+                var context = db.Expenses.Find(this.Id);
+                if (context != null)
+                {
+                    context.Description = expense.Description;
+                    context.Date = expense.Date;
+                    context.PaidOut = expense.PaidOut;
+                    context.Value = expense.Value;
+                }
+                else
+                {
+                    throw new Exception(MsgApi.API001);
+                }
+
+                db.SaveChanges();
+                return this;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex + MsgApi.API001));
+            }
+        }
+        public Expense Remove(Expense expense)
+        {
+            var context = db.Expenses.Find(expense.Id);
+            if (context != null)
+            {
+                db.Remove(context);
+            }
+            else
+                throw new Exception(MsgApi.API001);
+
+            db.SaveChanges();
+            return this;
         }
     }
 }

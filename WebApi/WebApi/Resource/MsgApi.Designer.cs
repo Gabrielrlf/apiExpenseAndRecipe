@@ -61,11 +61,20 @@ namespace WebApi.Resource {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possível finalizar o método {0}..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possível finalizar o método..
         /// </summary>
         public static string API001 {
             get {
                 return ResourceManager.GetString("API001", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Método executado com sucesso!.
+        /// </summary>
+        public static string API002 {
+            get {
+                return ResourceManager.GetString("API002", resourceCulture);
             }
         }
     }

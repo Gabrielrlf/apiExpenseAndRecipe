@@ -14,6 +14,7 @@ namespace WebApi.Models
     {
 
         [Key]
+        public int Id { get; set; }
         [Required(ErrorMessage = "O campo {0} é obrigatório!")]
 
         public string Description { get; set; }
@@ -45,14 +46,7 @@ namespace WebApi.Models
         {
             try
             {
-                if (this.Description != Description)
-                {
-                    db.Recipes.Update(this);
-                }
-                else
-                {
-                    db.Recipes.Add(this);
-                }
+                db.Recipes.Add(this);
                 db.SaveChanges();
                 return this;
             }
@@ -60,6 +54,44 @@ namespace WebApi.Models
             {
                 throw new Exception(Convert.ToString(ex + MsgApi.API001));
             }
+        }
+        public Recipe Update(Recipe recipe)
+        {
+            try
+            {
+                var context = db.Recipes.Find(this.Id);
+                if (context != null)
+                {
+                    context.Description = recipe.Description;
+                    context.Date = recipe.Date;
+                    context.PaidIn = recipe.PaidIn;
+                    context.Value = recipe.Value;
+                }
+                else
+                {
+                   throw new Exception(MsgApi.API001);
+                }
+
+                db.SaveChanges();
+                return this;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex + MsgApi.API001));
+            }
+        }
+        public Recipe Remove(Recipe recipe)
+        {
+            var context = db.Recipes.Find(recipe.Id);
+            if (context != null)
+            {
+                db.Remove(context);
+            }
+            else
+                throw new Exception(MsgApi.API001);
+
+            db.SaveChanges();
+            return this;
         }
     }
 }

@@ -20,8 +20,6 @@ namespace WebApi.Controllers
     [Route("api/home")]
     public class HomeController : ControllerBase
     {
-
-
         [Route("saveExpense")]
         [HttpPost]
         public Expense SaveExpense([FromBody] Expense expense)
@@ -36,7 +34,6 @@ namespace WebApi.Controllers
             }
         }
 
-
         [Route("listExpense")]
         [HttpPost]
         public List<Expense> ListExpense()
@@ -50,19 +47,8 @@ namespace WebApi.Controllers
                 throw new Exception(Convert.ToString(ex) + MsgApi.API001);
             }
         }
-        [Route("saveRecipe")]
-        [HttpPost]
-        public Recipe SaveRecipe([FromBody] Recipe recipe)
-        {
-            try
-            {
-                return recipe.Save();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
-            }
-        }
+
+       
         [Route("BalanceExpense")]
         [HttpPost]
         public decimal BalanceExpense()
@@ -85,6 +71,79 @@ namespace WebApi.Controllers
                 throw new Exception(Convert.ToString(ex) + MsgApi.API001);
             }
         }
+
+        [Route("updateExpense/{id}")]
+        [HttpPost]
+        public Expense updateExpense(int id,[FromBody] Expense expense)
+        {
+            try
+            {
+                expense.Id = id;
+                return expense.Update(expense);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
+
+        [Route("RemoveExpense")]
+        [HttpPost]
+        public Expense RemoveExpense([FromBody] Expense expense)
+        {
+            try
+            {
+                return expense.Remove(expense);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
+
+        [Route("RemoveRecipe")]
+        [HttpPost]
+        public Recipe RemoveRecipe([FromBody] Recipe recipe)
+        {
+            try
+            {
+                return recipe.Remove(recipe);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
+
+        [Route("saveRecipe")]
+        [HttpPost]
+        public Recipe SaveRecipe([FromBody] Recipe recipe)
+        {
+            try
+            {
+                return recipe.Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
+
+        [Route("updateRecipe/{id}")]
+        [HttpPost]
+        public Recipe UpdateRecipe(int id,[FromBody] Recipe recipe)
+        {
+            try
+            {
+                recipe.Id = id;
+                return recipe.Update(recipe);
+            }
+            catch (Exception ex)
+            {
+               throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
+
         [Route("listRecipe")]
         [HttpPost]
         public List<Recipe> ListRecipe()
@@ -98,6 +157,7 @@ namespace WebApi.Controllers
                 throw new Exception(Convert.ToString(ex) + MsgApi.API001);
             }
         }
+
         [Route("BalanceRecipe")]
         [HttpPost]
         public decimal BalanceRecipe()
@@ -114,19 +174,6 @@ namespace WebApi.Controllers
                 }
 
                 return Convert.ToDecimal(totalValue);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
-            }
-        }
-        [Route("updateExpense")]
-        [HttpPost]
-        public Expense updateExpense([FromBody] Expense expense)
-        {
-            try
-            {
-                return expense.Save();
             }
             catch (Exception ex)
             {

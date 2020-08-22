@@ -118,6 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="API001" xml:space="preserve">
-    <value>Não foi possível finalizar o método {0}.</value>
+    <value>Não foi possível finalizar o método.</value>
+  </data>
+  <data name="API002" xml:space="preserve">
+    <value>Método executado com sucesso!</value>
   </data>
 </root>

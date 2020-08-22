@@ -42,6 +42,7 @@ namespace WebApi.Models
                 throw new Exception(Convert.ToString(ex + MsgApi.API001));
             }
         }
+
         public Recipe Save()
         {
             try
@@ -55,6 +56,7 @@ namespace WebApi.Models
                 throw new Exception(Convert.ToString(ex + MsgApi.API001));
             }
         }
+
         public Recipe Update(Recipe recipe)
         {
             try
@@ -80,6 +82,7 @@ namespace WebApi.Models
                 throw new Exception(Convert.ToString(ex + MsgApi.API001));
             }
         }
+
         public Recipe Remove(Recipe recipe)
         {
             var context = db.Recipes.Find(recipe.Id);

@@ -48,7 +48,6 @@ namespace WebApi.Controllers
             }
         }
 
-       
         [Route("BalanceExpense")]
         [HttpPost]
         public decimal BalanceExpense()
@@ -56,15 +55,14 @@ namespace WebApi.Controllers
             try
             {
                 var listExpense = Expense.List();
-                List<decimal> listExpenseValue = new List<decimal>();
-                object totalValue = 0;
+                decimal totalValue = 0;
 
                 foreach (var list in listExpense)
                 {
-                    totalValue = list.Value + Convert.ToDecimal(totalValue);
+                    totalValue = list.Value + totalValue;
                 }
 
-                return Convert.ToDecimal(totalValue);
+                return totalValue;
             }
             catch (Exception ex)
             {
@@ -74,7 +72,7 @@ namespace WebApi.Controllers
 
         [Route("updateExpense/{id}")]
         [HttpPost]
-        public Expense updateExpense(int id,[FromBody] Expense expense)
+        public Expense updateExpense(int id, [FromBody] Expense expense)
         {
             try
             {
@@ -131,7 +129,7 @@ namespace WebApi.Controllers
 
         [Route("updateRecipe/{id}")]
         [HttpPost]
-        public Recipe UpdateRecipe(int id,[FromBody] Recipe recipe)
+        public Recipe UpdateRecipe(int id, [FromBody] Recipe recipe)
         {
             try
             {
@@ -140,7 +138,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
-               throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
             }
         }
 
@@ -158,22 +156,73 @@ namespace WebApi.Controllers
             }
         }
 
-        [Route("BalanceRecipe")]
+        [Route("balanceRecipe")]
         [HttpPost]
         public decimal BalanceRecipe()
         {
             try
             {
-                var listExpense = Recipe.List();
-                List<decimal> listExpenseValue = new List<decimal>();
-                object totalValue = 0;
+                var listRecipe = Recipe.List();
+                decimal totalValue = 0;
+
+                foreach (var list in listRecipe)
+                {
+                    totalValue = list.Value + totalValue;
+                }
+
+                return totalValue;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
+
+        [Route("summation")]
+        [HttpPost]
+        public decimal Summation()
+        {
+            try
+            {
+                var balanceRecipe = BalanceRecipe();
+                var balanceExpense = BalanceExpense();
+                var totalValue = balanceRecipe - balanceExpense;
+
+                return totalValue;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
+
+        [Route("balance")]
+        [HttpPost]
+        public decimal Balance()
+        {
+            try
+            {
+                decimal totalValue = 0;
+                var listRecipe = Recipe.List();
+                var listExpense = Expense.List();
+
+                foreach (var list in listRecipe)
+                {
+                    if (list.PaidIn)
+                    {
+                        totalValue = totalValue + list.Value;
+                    }
+                }
 
                 foreach (var list in listExpense)
                 {
-                    totalValue = list.Value + Convert.ToDecimal(totalValue);
+                    if (list.PaidOut)
+                    {
+                        totalValue = totalValue - list.Value;
+                    }
                 }
 
-                return Convert.ToDecimal(totalValue);
+                return totalValue;
             }
             catch (Exception ex)
             {

@@ -32,6 +32,19 @@ namespace WebApi.Models
 
         public Expense() { }
         private static DataContext db = new DataContext();
+     
+        public static List<Expense> List()
+        {
+            try
+            {
+                return db.Expenses.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public Expense Save()
         {
             try
@@ -46,17 +59,6 @@ namespace WebApi.Models
             }
         }
 
-        public static List<Expense> List()
-        {
-            try
-            {
-                return db.Expenses.ToList();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public Expense Update(Expense expense)
         {
             try
@@ -82,6 +84,7 @@ namespace WebApi.Models
                 throw new Exception(Convert.ToString(ex + MsgApi.API001));
             }
         }
+
         public Expense Remove(Expense expense)
         {
             var context = db.Expenses.Find(expense.Id);

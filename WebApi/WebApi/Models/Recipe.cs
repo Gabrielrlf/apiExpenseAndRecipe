@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Resource;
 
 namespace WebApi.Models
 {
     [Table("Recipe")]
     public class Recipe
     {
-    
 
         [Key]
         [Required(ErrorMessage = "O campo {0} é obrigatório!")]
@@ -38,7 +38,27 @@ namespace WebApi.Models
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception(Convert.ToString(ex + MsgApi.API001));
+            }
+        }
+        public Recipe Save()
+        {
+            try
+            {
+                if (this.Description != Description)
+                {
+                    db.Recipes.Update(this);
+                }
+                else
+                {
+                    db.Recipes.Add(this);
+                }
+                db.SaveChanges();
+                return this;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex + MsgApi.API001));
             }
         }
     }

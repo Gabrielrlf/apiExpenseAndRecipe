@@ -50,6 +50,19 @@ namespace WebApi.Controllers
                 throw new Exception(Convert.ToString(ex) + MsgApi.API001);
             }
         }
+        [Route("saveRecipe")]
+        [HttpPost]
+        public Recipe SaveRecipe([FromBody] Recipe recipe)
+        {
+            try
+            {
+                return recipe.Save();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
         [Route("BalanceExpense")]
         [HttpPost]
         public decimal BalanceExpense()
@@ -66,6 +79,19 @@ namespace WebApi.Controllers
                 }
 
                 return Convert.ToDecimal(totalValue);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Convert.ToString(ex) + MsgApi.API001);
+            }
+        }
+        [Route("listRecipe")]
+        [HttpPost]
+        public List<Recipe> ListRecipe()
+        {
+            try
+            {
+                return Recipe.List();
             }
             catch (Exception ex)
             {
